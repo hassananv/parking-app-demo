@@ -1,0 +1,32 @@
+@import "common";
+
+@import "bootstrap-theme";
+
+@import "_custom_bootstrap.scss";
+@import "~bootstrap/scss/bootstrap.scss";
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import "~bootstrap-vue/src/index.scss";
+
+@import "_custom_vuetify.scss";
+
+
+//Below are styles for the application
+.app-content {
+  display: flex;
+  flex: 1 0 auto;
+  flex-flow: row nowrap;
+  max-width: 100%;
+  padding: 0;
+  min-height: 100%;
+}
+
+
+.app-outer {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100%;
+}
+
+
+
+
