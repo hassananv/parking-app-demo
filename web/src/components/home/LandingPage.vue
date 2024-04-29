@@ -18,16 +18,26 @@
 
             <b-card class="info-section my-5">
                 <b-row>
-                    <b-col cols="6 text-center">
+                    <b-col cols="4 text-center">
                         <b-button class="btn-lg bg-warning login-button" @click="register()">
                                 Register
                         </b-button>                              
                     </b-col> 
-                    <b-col cols="6 text-center">
+                    <b-col cols="4 text-center">
                         <b-button class="btn-lg bg-warning login-button" @click="login()">
                                 Login                                                                               
                         </b-button>                                               
-                    </b-col>     
+                    </b-col> 
+                    <b-col cols="4 text-center">
+                        <b-button class="btn-lg bg-warning login-button" @click="keycloakLogin()">
+                                Login/Register 
+                                <img 
+                                    src="../../images/keycloak-logo.png"
+                                    width="100"
+                                    height="20"
+                                    alt=""/>
+                        </b-button>                                               
+                    </b-col> 
                 </b-row>            
             </b-card>
             
@@ -286,6 +296,8 @@ export default class LandingPage extends Vue {
 
     registerStates = {} as userStatesInfoType;
     loginStates = {} as loginStatesInfoType;
+
+    loginUrl = ''
     
     created() {
         this.vehicleTypeOptions = vehicleTypeOptions;
@@ -299,6 +311,15 @@ export default class LandingPage extends Vue {
         this.registerStates = {} as userStatesInfoType;
         this.loginStates = {} as loginStatesInfoType;
 
+        const token = await this.$http.get('/oidc/token');        
+        console.log(token.data);
+        this.loginUrl = token?.data?.login_url;
+        if(token?.data?.access_token)
+            this.$store.commit('Common/setToken',token.data.access_token);
+        
+        this.$store.commit('Common/setLogoutUrl',token.data.logout_url);
+        this.$store.commit('Common/setIsKeycloak',token.data.keycloak);
+
         if(this.$store.state.Common.token)            
             await SessionManager.getUserInfo(this.$store);
         
@@ -309,6 +330,10 @@ export default class LandingPage extends Vue {
             this.isLoggedIn = false;
             this.pageReady = true;
         } 
+    }
+
+    public keycloakLogin() {
+        window.location.replace(this.loginUrl);
     }
   
     public login() {         
@@ -517,12 +542,13 @@ export default class LandingPage extends Vue {
         color: black;
         font-weight: 600;
         margin: 0 auto 0 auto;
-        width: 10rem;
+        min-width: 10rem;
         border: 2px solid rgb(231, 231, 231);
         &:hover,
         &:focus {
             color: rgb(155, 48, 6);
             border-color: rgba(29, 17, 10, 0.904);
+            background: #fde5a9 !important;
 
         }
         &:active {

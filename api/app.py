@@ -10,6 +10,7 @@ from fastapi_sqlalchemy import DBSessionMiddleware
 from core.config import settings
 from core.multi_database_middleware import DATABASE_URL
 
+from oidc.oidc_router import router as oidc_router
 from api.api import router as api_router
 
 from starlette.middleware.sessions import SessionMiddleware
@@ -35,6 +36,7 @@ def get_application() -> FastAPI:
     )
 
     new_app.add_middleware(SessionMiddleware, secret_key="store secret key")
+    new_app.include_router(oidc_router)
     new_app.include_router(api_router)
 
 
