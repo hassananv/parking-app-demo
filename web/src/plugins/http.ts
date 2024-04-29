@@ -7,7 +7,7 @@ import {AxiosAuthRefreshOptions} from 'axios-auth-refresh';
 
 
 
-const refreshAuthLogic = failedRequest => axios.get('/auth/token').then(response => {
+const refreshAuthLogic = failedRequest => axios.get('/oidc/token').then(response => {
     if (response.status == 200 && response.data.access_token == null) {
         location.replace(response.data.login_url);
         return Promise.resolve();
