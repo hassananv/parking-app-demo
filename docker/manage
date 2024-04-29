@@ -78,7 +78,7 @@ build-web() {
     --copy \
     -e  PUBLIC_URL=${DEFAULT_BASE_URL}\
     '../web' \
-    'centos/nodejs-12-centos7' \
+    'centos/nodejs-10-centos7:10' \
     ${COMPOSE_PROJECT_NAME}'-web-artifacts'
   echo -e "===================================================================================================="
 
@@ -94,14 +94,14 @@ build-web() {
 build-api() {
   #
   # api
-  #'centos/python-38-centos7'
+  #
   echo -e "\n\n===================================================================================================="
   echo -e "Building ${COMPOSE_PROJECT_NAME}-api image using s2i ..."
   echo -e "----------------------------------------------------------------------------------------------------"
   ${S2I_EXE} build \
     --copy \
     '../api' \
-    'registry.fedoraproject.org/f33/python3' \
+    'centos/python-38-centos7' \
     ${COMPOSE_PROJECT_NAME}'-api'
   echo -e "===================================================================================================="
 }

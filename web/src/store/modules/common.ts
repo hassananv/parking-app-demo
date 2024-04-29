@@ -8,19 +8,7 @@ class Common extends VuexModule {
 
     public token = '';
     public user = {} as userInfoType; 
-    public currentDate: string = '';
-	public logoutUrl = "";
-	public isKeycloak = false;
-
-	@Mutation
-	public setIsKeycloak(isKeycloak: boolean): void {   
-	  this.isKeycloak = isKeycloak
-	}
-
-	@Mutation
-	public setLogoutUrl(logoutUrl): void {   
-	  this.logoutUrl = logoutUrl
-	}
+    public currentDate: string = '' 
    
 	@Mutation
 	public setToken(token): void {   

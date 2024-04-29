@@ -26,8 +26,8 @@ def log_out_user(request: Request):
 
 
 
-# @router.get('/token', status_code=status.HTTP_200_OK)
-# def get_token(request: Request, db: Session= Depends(get_db_session)):        
-#     return get_access_token(request, db)
+@router.get('/token', status_code=status.HTTP_200_OK)
+def get_token(request: Request, db: Session= Depends(get_db_session)):        
+    return get_access_token(request, db)
 
 

@@ -75,7 +75,7 @@
                     </b-row>
 
                     <div v-if="!changePassword">
-                        <b-row v-if="!isKeycloak" class="mt-4 text-center">
+                        <b-row class="mt-4 text-center">
                             <b-col>
                                 <b-button variant="danger" @click="changePassword=true;">
                                     Change Password
@@ -181,9 +181,6 @@ export default class UserProfile extends Vue {
     
     @commonState.State
     public user!: userInfoType;
-
-    @commonState.State
-    public isKeycloak!: boolean;
 
     disclaimer = {show: false}
 
