@@ -101,17 +101,12 @@ export default class NavigationTopbar extends Vue {
 
 
     public logout() {
-        if(this.$store.state.Common.logoutUrl){
+        
+        this.$http.get('/auth/logout').then(response =>{
             this.UpdateUser(null);
             this.UpdateToken(null);
-            window.location.replace(this.$store.state.Common.logoutUrl);
-        } 
-        else
-            this.$http.get('/auth/logout').then(response =>{
-                this.UpdateUser(null);
-                this.UpdateToken(null);
-                this.$router.push({ name: "home" });
-            }) 
+            this.$router.push({ name: "home" });
+        }) 
     }
 
     public userProfile(){

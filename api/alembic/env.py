@@ -19,11 +19,10 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from models import user_model, spot_model, booking_model, oidc_model
+from models import user_model, spot_model, booking_model
 target_metadata = user_model.Base.metadata
 target_metadata = spot_model.Base.metadata
 target_metadata = booking_model.Base.metadata
-target_metadata = oidc_model.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

@@ -14,8 +14,8 @@ class SpotBase(BaseModel):
     
 
     class Config():
-        from_attributes = True
-        populate_by_name = True
+        orm_mode = True
+        allow_population_by_field_name = True
 #___________________________
 
 

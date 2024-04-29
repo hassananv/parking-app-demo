@@ -9,7 +9,7 @@ token_bearer_schema = HTTPBearer()
 
 def logged_in_user(request: Request,  token: HTTPAuthorizationCredentials = Depends(token_bearer_schema)):
     
-    if("user_email" in request.session and request.session["user_email"] is not None)or ("oidc_user_email" in request.session and request.session["oidc_user_email"] is not None):
+    if("user_email" in request.session and request.session["user_email"] is not None):
         return verify_user(request, token)        
     else:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Unauthorized user.")
