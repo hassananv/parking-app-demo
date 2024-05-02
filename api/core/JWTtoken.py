@@ -8,7 +8,7 @@ from api.schemas.token_schema import TokenDataSchema
 
 SECRET_KEY = settings.JWT_SECRET_KEY
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 10
+ACCESS_TOKEN_EXPIRE_MINUTES = 3
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
@@ -33,11 +33,11 @@ def verify_token(token: str, credentials_exception, request: Request):
         # print("_________Internal_Token_Not_Found_________")
         raise credentials_exception
     
-    if( "user_email" not in request.session):
+    if( "user_email" not in request.session and "oidc_user_email" not in request.session):
         # print("_________Internal_Token_User_Email_Not_Found_________")
         raise credentials_exception
 
-    user_email = request.session["user_email"]
+    user_email = request.session["user_email"] if "oidc_user_email" not in request.session else request.session["oidc_user_email"]
 
     try:        
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])       

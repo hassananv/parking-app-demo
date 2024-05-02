@@ -9,12 +9,12 @@ class UserBase(BaseModel):
     last_name: str
     email: str    
     vehicle_type: VehicleTypeEnum    
-    license_plate: str
+    license_plate: Optional[str]
  
 
     class Config():
-        orm_mode = True
-        allow_population_by_field_name = True
+        from_attributes = True
+        populate_by_name = True
 #___________________________
 
 
@@ -28,8 +28,12 @@ class UserRegisterSchema(UserBase):
 
 class UserUpdateSchema(UserBase):
     id:int
-    password: Optional[str]
-    old_password: Optional[str]
+    password: Optional[str] = None
+    old_password: Optional[str] = None
+
+    class Config():
+        from_attributes = True
+        populate_by_name = True
     
 
 
