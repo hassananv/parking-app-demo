@@ -11,9 +11,7 @@
         </li>
         <li class="nav-item">
           <a
-            class="nav-link"
-            href="https://pacificintelligent.com/"
-            target="_blank"
+            name="disclaimer" class="nav-link" @click="disclaimer.show = true" style="cursor: pointer;"
             >Privacy</a
           >
         </li>
