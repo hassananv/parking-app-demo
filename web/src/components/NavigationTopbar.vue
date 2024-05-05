@@ -18,48 +18,43 @@
                 <div class="navbar-brand navbar-text">                    
                     Pacific Intelligent Automation Ltd.                 
                 </div>
-                <div class="navbar-brand navbar-text font-weight-bold">                    
+                <div class="navbar-brand navbar-text font-weight-bold app-name">                    
                     Parking Reservation Application (Demo)                 
                 </div>
 
-                <div class="navbar-extra">
-                    <div id="app-profile">
-                        <div v-if="user && user.userName" style="padding-right: rem">
-                            <b-row>
-                                <b-col>
-                                    <b-dropdown id="profileDropdown"
-                                                text="Profile"
-                                                variant="primary btn-transparent"
-                                                menu-class="w-10"
-                                                >
-                                        <template #button-content >
-                                            <span class="fa fa-user mx-3"></span><span class="mr-2"> {{ user.userName }}</span>
-                                        </template>
-                                        <b-dropdown-item variant="text" @click="manageBookings()">
-                                            <b-icon-list-ul class="mr-3"/>Manage Bookings
-                                        </b-dropdown-item>
-                                        <b-dropdown-item variant="info" @click="addBookings()">
-                                            <b-icon-calendar2-plus class="mr-3"/>Add Bookings
-                                        </b-dropdown-item>
-                                        <b-dropdown-item variant="success" @click="userProfile()">
-                                            <b-icon-card-text class="mr-3"/>User Profile
-                                        </b-dropdown-item>
-                                        <b-dropdown-item variant="danger" @click="logout()">
-                                            <b-icon-box-arrow-left  class="mr-3"/>Logout
-                                        </b-dropdown-item>                                
-                                    </b-dropdown>
-                                </b-col>                                                       
-                                <b-alert style="margin-top:0.8rem" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
-                                    <b v-if="alertType=='success'">Saved <b-icon-check-square-fill/> </b>
-                                    <b v-else>Error <b-icon-exclamation-circle-fill class="ml-1"/> </b>
-                                </b-alert>
-                            </b-row>                          
-
-                        </div>
-                    </div>
+                <div class="navbar-extra" v-if="user && user.userName">
+                    <b-row class="mx-0">
+                        <b-col>
+                            <b-dropdown
+                                right
+                                text="Profile"
+                                variant="primary btn-transparent"                                        
+                                >
+                                <template #button-content >
+                                    <span class="fa fa-user mx-3"></span><span class="mr-2"> {{ user.userName }}</span>
+                                </template>
+                                <b-dropdown-item variant="text" @click="manageBookings()">
+                                    <b-icon-list-ul class="mr-3"/>Manage Bookings
+                                </b-dropdown-item>
+                                <b-dropdown-item variant="info" @click="addBookings()">
+                                    <b-icon-calendar2-plus class="mr-3"/>Add Bookings
+                                </b-dropdown-item>
+                                <b-dropdown-item variant="success" @click="userProfile()">
+                                    <b-icon-card-text class="mr-3"/>User Profile
+                                </b-dropdown-item>
+                                <b-dropdown-item variant="danger" @click="logout()">
+                                    <b-icon-box-arrow-left  class="mr-3"/>Logout
+                                </b-dropdown-item>                                
+                            </b-dropdown>
+                        </b-col>
+                        <b-alert style="margin-top:0.8rem" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
+                            <b v-if="alertType=='success'">Saved <b-icon-check-square-fill/> </b>
+                            <b v-else>Error <b-icon-exclamation-circle-fill class="ml-1"/> </b>
+                        </b-alert>
+                    </b-row>
                 </div>
 
-                <button class="navbar-toggler"
+                <!-- <button class="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
                     data-target="#navbarNavAltMarkup"
@@ -67,7 +62,7 @@
                     aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> -->
             </div>
             
         </nav>
@@ -148,6 +143,7 @@ export default class NavigationTopbar extends Vue {
 
 <style scoped lang="scss">
 @import "../styles/common";
+
 .navbar {
   padding-right: 170px;
   background: #0c4433;
@@ -155,18 +151,11 @@ export default class NavigationTopbar extends Vue {
 .navbar-brand:not(.logo) {
   flex: 1 1 auto;
 }
-.navbar-extra {
-  display: inline-block;
-  flex: 1 1 auto;
-  text-align: right;
-}
 .navbar .navbar-extra {
+  margin:0 0 0 auto;
   display: inline-block;
   flex: 1 1 auto;
   text-align: right;
-}
-
-#app-profile {
   color: $new-white;
 }
 
@@ -175,5 +164,30 @@ export default class NavigationTopbar extends Vue {
     height: 2.4rem;
     margin:0;
     padding: 0.4rem 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar {      
+    background: #0c4433;
+  }
+  .navbar-brand:not(.logo){
+    font-size: 13pt !important;
+  }
+
+  .app-name {
+    display: block;
+    font-size: 13pt !important;
+    margin:0 0 0 1rem;
+  }
+
+  .navbar {
+    padding-right: 0px;
+    width:100%;
+    background: #0c4433;
+  }
+  .btn-group {
+    margin-right: 1rem;
+  }
+
 }
 </style>

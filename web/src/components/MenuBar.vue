@@ -2,7 +2,7 @@
 	<header v-if="user && user.userName" name="menu-bar" class="app-header" :key="update">
 		<b-navbar toggleable="lg" class="navbar navbar-expand-lg navbar-dark m-0 p-0" style="background-color: #0c4433;">    
 		
-			<b-navbar-nav  class="my-0 mx-5">
+			<b-navbar-nav  class="menu-navbar">
                 <b-nav-item 
 					v-for="item,inx in bothGroup" 
 					:key="inx"
@@ -10,10 +10,10 @@
 					:to="'/'+item.name"
 					:class="bgClass[item.name]" >
 					<div class="booking-tab">{{item.label}}</div>
-				</b-nav-item>
-				
+				</b-nav-item>				
 			</b-navbar-nav>
-			<div :key="updateTime" style="margin:0 3rem 0 auto; color:#FFF;">{{currentDate}}</div>
+
+			<div :key="updateTime" class="time">{{currentDate}}</div>
 		</b-navbar> 
 	</header>
 </template>
@@ -91,4 +91,23 @@ export default class MenuBar extends Vue {
     ul >>> .dropdown-menu {
         width: 250px !important;
     }
+
+	.time {
+		margin:0 3rem 0 auto; 
+		color:#FFF;
+	}
+	.menu-navbar{
+		margin: 0 2rem;
+	}
+
+
+	@media screen and (max-width: 600px) {
+		.time {
+			margin:0 0.5rem 0 auto;
+		}
+		
+		.menu-navbar{
+			margin: 0;
+		}		
+	}
 </style>
