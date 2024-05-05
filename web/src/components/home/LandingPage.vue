@@ -2,7 +2,7 @@
     <div v-if="pageReady">
         <b-container>
 
-            <b-card class="info-section my-4">
+            <b-card class="info-section">
                 <b-card-header class="card-header text-center">
                     How it Works?
                 </b-card-header>
@@ -16,44 +16,40 @@
                 </b-card-footer>
             </b-card>
 
-            <b-card class="info-section my-5">
+            <b-card class="action-section">
                 <b-row>
-                    <b-col cols="4 text-center">
-                        <b-button class="btn-lg bg-warning login-button" @click="register()">
-                                Register
-                        </b-button>                              
-                    </b-col> 
-                    <b-col cols="4 text-center">
-                        <b-button class="btn-lg bg-warning login-button" @click="login()">
-                                Login                                                                               
-                        </b-button>                                               
-                    </b-col> 
-                    <b-col cols="4 text-center">
-                        <b-button class="btn-lg bg-warning login-button" @click="keycloakLogin()">
-                                Login/Register 
-                                <img 
-                                    src="../../images/keycloak-logo.png"
-                                    width="100"
-                                    height="20"
-                                    alt=""/>
-                        </b-button>                                               
-                    </b-col> 
+                    <b-button class="bg-warning action-button" @click="register()">
+                        Register
+                    </b-button>                              
+                
+                    <b-button class="bg-warning action-button" @click="login()">
+                        Login                                                                               
+                    </b-button>                                               
+                
+                    <b-button class="bg-warning action-button" @click="keycloakLogin()">
+                        Login/Register 
+                        <img 
+                            src="../../images/keycloak-logo.png"
+                            width="100"
+                            height="20"
+                            alt=""/>
+                    </b-button>                                               
                 </b-row>            
             </b-card>
             
-            <b-card style="width:60rem; margin:0 auto;" no-body border-variant="white">
-                <b-alert style="margin-top:0.8rem" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
+            <b-card class="alert-card" no-body border-variant="white">
+                <b-alert style="margin-top:0.8rem; width:100%;" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     <b v-if="alertType=='success'">{{message}} <b-icon-check-square-fill class="ml-1"/> </b>
                     <b v-else> {{message}}<b-icon-exclamation-circle-fill class="ml-1"/> </b>
                 </b-alert> 
             </b-card>
 
-            <b-card v-if="signUp && !signIn" class="register-section my-4" :key="updateRegisterInfo">
+            <b-card v-if="signUp && !signIn" class="register-section" :key="updateRegisterInfo">
                 <b-card-header class="text-center">
                     Register
                 </b-card-header>
                 <b-card-body>
-                    <b-row>
+                    <b-row class="register-input-row">
                         <b-col>
                             <b-form-group                        
                                 label="First Name" 
@@ -83,7 +79,7 @@
                             </b-form-group>
                         </b-col>
                     </b-row>  
-                    <b-row>
+                    <b-row class="register-input-row">
                         <b-col>
                             <b-form-group                        
                                 label="Vehicle Type" 
@@ -113,8 +109,8 @@
                             </b-form-group>
                         </b-col>
                     </b-row>
-                    <b-row >
-                        <b-col cols="6">
+                    <b-row class="register-input-row">
+                        <b-col>
                             <b-form-group                        
                                 label="Email Address" 
                                 label-for="email">
@@ -128,7 +124,7 @@
                                 </b-form-input> 
                             </b-form-group>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col>
                             <b-form-group                        
                                 label="Confirm Email Address" 
                                 label-for="confirmEmail">
@@ -143,8 +139,8 @@
                             </b-form-group>
                         </b-col>
                     </b-row>     
-                    <b-row>
-                        <b-col cols="6">
+                    <b-row class="register-input-row">
+                        <b-col>
                             <b-form-group                        
                                 label="Password" 
                                 label-for="password">
@@ -159,7 +155,7 @@
                                 </b-form-input> 
                             </b-form-group>
                         </b-col>
-                        <b-col cols="6">
+                        <b-col>
                             <b-form-group                        
                                 label="Confirm Password" 
                                 label-for="confirmPassword">
@@ -188,42 +184,40 @@
                 </b-card-body>
             </b-card>
 
-            <b-card v-else-if="signIn && !signUp" class="login-section my-4" :key="updateLoginInfo">
+            <b-card v-else-if="signIn && !signUp" class="login-section" :key="updateLoginInfo">
                 <b-card-header class="text-center">
                     Login
                 </b-card-header>
-                <b-card-body>
-                    <b-row class="my-2">
-                        <b-form-group 
-                            style="margin:0 auto;"                       
-                            label="Email Address" 
-                            label-for="email">
-                            <b-form-input 
-                                id="email"                                                          
-                                style="display:inline"
-                                v-model="credentials.email"
-                                :state="loginStates.email"
-                                placeholder="Email Address"
-                            >
-                            </b-form-input> 
-                        </b-form-group>
-                    </b-row>     
-                    <b-row class="mt-4">
-                        <b-form-group 
-                            style="margin:0 auto;"                       
-                            label="Password" 
-                            label-for="password">
-                            <b-form-input
-                                type="password"
-                                id="password"                                                          
-                                style="display:inline"
-                                v-model="credentials.password"
-                                :state="loginStates.password"
-                                placeholder="Password"
-                            >
-                            </b-form-input> 
-                        </b-form-group>
-                    </b-row> 
+                <b-card-body>                    
+                    <b-form-group
+                        style="margin:0 auto;"                       
+                        label="Email Address" 
+                        label-for="email">
+                        <b-form-input 
+                            id="email"                                                          
+                            style="display:inline"
+                            v-model="credentials.email"
+                            :state="loginStates.email"
+                            placeholder="Email Address"
+                        >
+                        </b-form-input> 
+                    </b-form-group>
+                    
+                    <b-form-group                        
+                        style="margin:1.5rem auto 0 auto;"                       
+                        label="Password" 
+                        label-for="password">
+                        <b-form-input
+                            type="password"
+                            id="password"                                                          
+                            style="display:inline"
+                            v-model="credentials.password"
+                            :state="loginStates.password"
+                            placeholder="Password"
+                        >
+                        </b-form-input> 
+                    </b-form-group>
+                    
                     <b-row>
                         <b-button                                                        
                             style="margin:3rem auto 0 auto; padding: 0.25rem 2rem; width: 50%;" 
@@ -466,81 +460,39 @@ export default class LandingPage extends Vue {
 <style scoped lang="scss">
     @import "src/styles/common";
 
-    .info-section {
+    .info-section, .action-section{
         font-size: 24px;
         line-height: 1.6;
-        margin: 0 auto;
-        width: 60rem;
+        margin: 1rem auto;
+        width: 87%;
         border: 2px solid rgba($new-pale-grey, 0.3);
         border-radius: 18px;
         background-color: rgba(9, 109, 112, 0.877); 
         color: $new-white;
     }
 
-    @media (max-width:600px){
-       .info-section{
-            font-size: 20px;
-            line-height: 1.6;
-            margin: 0 0 0 -0.5rem;
-            max-width: 400px;
-            border: 2px solid rgba($new-pale-grey, 0.3);
-            border-radius: 18px;
-            background-color: rgba(9, 109, 112, 0.877); 
-            color: $new-white;
-        }
+    .info-section .card-header {
+        background: rgb(23, 39, 43);
+        color: white;
+        border-radius: 10px !important;
+        border:0px solid white;
+    }
+    .info-section .card-footer{
+        
+        margin: 0;
+    }
+    .info-section .how-works-section{
+        font-size: 18pt;        
+    }
+    .action-section {
+        margin: 3rem auto;
+        display: flex;
     }
 
-    .register-section {
-        font-size: 24px;
-        line-height: 1.6; 
-        margin: 0 auto; 
-        width: 60rem;
-        border: 2px solid rgba($new-pale-grey, 0.3);
-        border-radius: 18px;
-        background-color: rgba(180, 208, 209, 0.507); 
-        color: black;
-    }
-    @media (max-width:600px){
-        .register-section {
-            font-size: 24px;
-            line-height: 1.6; 
-            margin: 0 0 0 -0.5rem; 
-            max-width: 400px;
-            border: 2px solid rgba($new-pale-grey, 0.3);
-            border-radius: 18px;
-            background-color: rgba(180, 208, 209, 0.507); 
-            color: black;
-        }
-    }
-
-
-    .login-section {
-        font-size: 24px;
-        line-height: 1.6; 
-        margin: 0 auto; 
-        width: 30rem;
-        border: 2px solid rgba($new-pale-grey, 0.3);
-        border-radius: 18px;
-        background-color: rgba(92, 61, 3, 0.5); 
-        color: $new-white;
-    }
-
-    @media (max-width:600px){
-        .login-section {
-            font-size: 24px;
-            line-height: 1.6; 
-            margin: 0 0 0 -0.5rem; 
-            max-width: 400px;
-            border: 2px solid rgba($new-pale-grey, 0.3);
-            border-radius: 18px;
-            background-color: rgba(92, 61, 3, 0.5); 
-            color: $new-white;
-        }
-    }
-
-    .login-button {
+    .action-button {
         color: black;
         font-weight: 600;
+        font-size: 15pt;
         margin: 0 auto 0 auto;
         min-width: 10rem;
         border: 2px solid rgb(231, 231, 231);
@@ -556,12 +508,45 @@ export default class LandingPage extends Vue {
         }
     }
 
-    .info-section .card-header {
-        background: rgb(23, 39, 43);
-        color: white;
-        border-radius: 10px !important;
-        border:0px solid white;
+    .alert-card {
+        width: 87%; 
+        margin:0 auto;
+    }    
+
+    .register-section {
+        font-size: 24px;
+        line-height: 1.6; 
+        margin: 0 auto; 
+        width: 60rem;
+        border: 2px solid rgba($new-pale-grey, 0.3);
+        border-radius: 18px;
+        background-color: rgba(180, 208, 209, 0.507); 
+        color: black;
     }
+
+    .login-section {
+        font-size: 24px;
+        line-height: 1.6; 
+        margin: 0 auto; 
+        width: 43%;
+        border: 2px solid rgba($new-pale-grey, 0.3);
+        border-radius: 18px;
+        background-color: rgba(92, 61, 3, 0.5); 
+        color: $new-white;
+        .card-body .card-body{
+            padding:1rem 4rem;
+        }
+    }
+
+
+
+    .card-footer {
+        border-radius: 7px !important;
+        background: #222222;
+    }
+
+    
+    
 
     .register-section .card-header {
         background: rgb(33, 62, 70);
@@ -575,5 +560,88 @@ export default class LandingPage extends Vue {
         color: white;
         border-radius: 10px !important;
         border:0px solid white;
+    }
+
+    @media (max-width:600px){        
+
+        .card-footer {
+            font-size: 10pt !important;
+            text-align: justify; 
+            line-height: 1.25rem;
+            border-radius: 10px !important;
+            background: #222222;
+        }
+        .info-section, .action-section{
+            line-height: 1rem;
+            margin: 0;
+            width: 100%;
+            border: 2px solid rgba($new-pale-grey, 0.3);
+            border-radius: 18px;
+            background-color: rgba(9, 109, 112, 0.877); 
+            color: $new-white;
+        }
+        .info-section .card-header{
+            font-size: 17px;
+            padding: 0.3rem 0;
+        }
+        .info-section .card-footer{
+            padding: 0.3rem 1rem;
+            margin: 0;
+        }
+        .info-section .how-works-section{
+            font-size: 10pt;
+            line-height: 1.25rem;
+            text-align: justify;        
+        }
+        
+        .action-section {
+            margin: 1rem auto;
+            display: flex;
+        }
+        .action-button {
+            color: black;
+            font-weight: 600;
+            font-size: 12pt;
+            margin: 0.5rem auto;
+            min-width: 8rem;
+            border: 2px solid rgb(231, 231, 231);
+        }
+
+        .alert-card {
+            width: 100%; 
+            margin:0 auto;
+        }
+
+        .register-section {
+            font-size: 24px;
+            line-height: 1rem; 
+            margin: 0;
+            padding: 0; 
+            width: 100%;
+            border: 2px solid rgba($new-pale-grey, 0.3);
+            border-radius: 18px;
+            background-color: rgba(180, 208, 209, 0.507); 
+            color: black;
+            .card-body {
+                margin: -0.5rem;
+            }
+        }
+        .register-section .register-input-row .col {            
+            margin: 0 -0.75rem -1rem -0.75rem;            
+        }
+
+        .login-section {
+            font-size: 24px;
+            line-height: 1rem; 
+            margin: 0; 
+            width: 100%;
+            border: 2px solid rgba($new-pale-grey, 0.3);
+            border-radius: 18px;
+            background-color: rgba(92, 61, 3, 0.5); 
+            color: $new-white;
+            .card-body .card-body{
+                padding:1rem 0.25rem;
+            }
+        }
     }
 </style>

@@ -24,11 +24,11 @@
           >
         </li>
         <li class="nav-item">
-          <a name="contact-us" class="nav-link" @click="contactUs = true" style="cursor: pointer;">
+          <a name="contact-us" class="nav-link last-item" @click="contactUs = true" style="cursor: pointer;">
             Contact Us</a>
         </li>
       </ul>
-      <div class="text-info ml-auto"> Copyright <b-badge variant="info" style="transform:translate(0,-2px); border-radius:10px;" >c</b-badge> 2022 Pacific Intelligent Automation Ltd.</div>
+      <div class="copyright-logo text-info"> Copyright <b-badge variant="info" style="transform:translate(0,-2px); border-radius:10px;" >c</b-badge> 2022 Pacific Intelligent Automation Ltd.</div>
     </nav>
 
     <b-modal size="lg" v-model="contactUs" header-class="bg-info">
@@ -91,5 +91,23 @@ export default class NavigationFooter extends Vue {
 .navbar {
   padding-right: 170px;
   background: #0c4433;
+}
+.copyright-logo{
+  margin-left: auto;
+}
+@media screen and (max-width: 600px) {
+  .navbar {
+    padding-right: 0px;
+  }
+  .copyright-logo{
+    margin:0 0 0 -0.3rem;
+  }
+  .nav-link {
+    border-bottom: 1px solid rgb(129, 149, 144);
+    margin: 0 auto;
+  }
+  .nav-link.last-item{
+    border-bottom: none !important;
+  }
 }
 </style>

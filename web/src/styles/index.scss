@@ -27,6 +27,19 @@
   min-height: 100%;
 }
 
+@media screen and (max-width: 600px) {
+  body {
+    display: inline-block;
+  }
+
+  .app-content {
+    display: flex;
+    flex: 1 0 auto;
+    flex-flow: row nowrap;
+    max-width: 100%;
+    padding: 0;
+  }
+}
 
 
 
