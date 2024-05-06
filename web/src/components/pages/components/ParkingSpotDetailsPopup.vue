@@ -1,6 +1,6 @@
 <template>
     <b-card v-if="dataReady" body-class="py-3" style="height:19.5rem">
-        
+
         <b-card-header class="text-center h2 my-n2" >Parking Spot Details:</b-card-header>
         <b-card-body>
             <b-row class="mt-n2">
@@ -28,7 +28,7 @@
             </b-row>
 
         </b-card-body>
-        
+        <b-button class="popover-close-btn" @click="closePopup()" size="sm" variant="dark">Close</b-button>
     </b-card>
 </template>
 
@@ -100,6 +100,30 @@ export default class ParkingSpotDetailsPopup extends Vue {
         return {endTimeFirst:sortedBookings[nextAvailDateIndex]['end_date'], startTimeNext:null, endTimeNext:null, endTimeConflict:null}
     }
 
+    closePopup(){        
+        this.$emit('closePopover');
+    }
 
 }
 </script>
+<style scoped lang="scss">
+    .popover-close-btn{
+        display: none;
+    }
+    @media screen and (max-width: 600px) {
+        .popover-body .card-body{
+            margin: 0;
+            padding: 0 0.1rem;
+        }
+
+        .popover-body .card-body .card-header{
+            font-size: 14pt;
+        }
+        
+        .popover-close-btn{
+            display: flex;
+            margin: 4rem auto 0 auto;
+        }    
+    }
+
+</style>

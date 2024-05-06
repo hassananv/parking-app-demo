@@ -1,35 +1,30 @@
 <template>
-    <b-card class="bg-white border-white">
+    <b-card class="bg-white border-white w-100 add-booking-content">
         
         <loading-spinner color="#000" v-if="!dataReady" waitingText="Loading ..." />
         
-        <b-card v-else class="w-100 mx-auto my-1 bg-light border-white"> 
+        <b-card v-else class="bg-light border-white search-card"> 
                        
-           
-            <b-row style="margin-top:-0.5rem">
-                <b-col cols="2"></b-col>      
-                <b-col cols="4" :class="!dateState?'border border-danger':''"> 
-                    <div style="font-size:14pt; margin:-0.75rem 0 .5rem 0;">Date</div>                 
+            <b-row class="search-wraper">                      
+                <div :class="!dateState?'border border-danger date-picker':'date-picker'"> 
+                    <div class="label">Date</div>                 
                     <booking-date-range-picker :key="update" :bookingRange="bookingDate" @datesAdded="addBookingDate"/>
-                </b-col>                
-                <b-col cols="2" style="margin-top:-0.75rem">
-                    <b-form-group                     
-                        label="Vehicle Type" 
-                        label-for="vehicleType">
-                        <b-form-select 
-                            id="vehicleType"                            
+                </div>                
+                <div class="vehicle-type">
+                    <div class="label">Vehicle Type</div> 
+                    <b-form-group>
+                        <b-form-select                             
                             style="display:inline"
-                            @change="find"
+                            @change="find"                            
                             :state="vehicleTypeState?null:false"
                             :options="vehicleTypeOptions"
                             v-model="vehicleType">
                         </b-form-select> 
                     </b-form-group>                    
-                </b-col>               
+                </div>               
                 
-                <b-col cols="2">
+                <div class="search-button">
                     <b-button
-                        name="search"
                         style="margin-top: 1.5rem; padding: 0.25rem 2rem; width: 100%;" 
                         :disabled="searching"
                         v-on:keyup.enter="find()"
@@ -38,30 +33,29 @@
                         ><spinner color="#FFF" v-if="searching" style="margin:0; padding: 0; height:2rem; transform:translate(0px,-24px);"/>
                         <span style="font-size: 20px;" v-else>Search</span>
                     </b-button>
-                </b-col>
-                <b-col cols="2"></b-col>
+                </div>
+                
             </b-row> 
-            <b-row  style="margin-top:-2rem">
-                <b-col cols="4"></b-col>
-                <b-col cols="2">
-                    <b-button                        
-                        style="margin-top: 1.5rem; padding: 0.25rem 0.5rem; width: 80%;" 
+
+            <b-row  class="view-button-wraper">                
+                <div class="view-button">
+                    <b-button 
+                        class="w-100"                                             
                         :disabled="searching"                        
                         variant="info"
                         @click="listView=true;find()"
                         ><i class="fa fa-list" style="margin-right:0.5rem;"></i>List View
                     </b-button>
-                </b-col>
-                <b-col cols="2">
-                    <b-button                        
-                        style="margin-top: 1.5rem; padding: 0.25rem 0.5rem; width: 80%;" 
+                </div>
+                <div class="view-button">
+                    <b-button 
+                        class="w-100"                      
                         :disabled="searching"                        
                         variant="info"
                         @click="listView=false;find()"
                         ><i class="fa fa-map" style="margin-right:0.5rem;"></i>Map View
                     </b-button>
-                </b-col>
-                <b-col cols="4"></b-col>
+                </div>                
             </b-row>                     
         </b-card>        
 
@@ -80,8 +74,6 @@
             :searching="searching"
             :bookingDates="bookingDate" />
         
-
-
     </b-card>
 </template>
 
@@ -203,22 +195,87 @@ export default class AddBookingsPage extends Vue {
 
 <style scoped lang="scss">
 
-    .labels {
-        font-size: 16px; font-weight:600;
+    .label {
+        font-size: 14pt; 
+        font-weight:600;
+        margin:-0.5rem 0 .5rem 0;
     }
 
-    .input-line {
-        font-size: 12px; font-weight:600;
+    .search-wraper{    
+        width: 70% !important;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .date-picker{
+        width: 63%;        
+    }
+    .vehicle-type{
+        min-width: 20%;
+        margin: 0rem 1% 0 1%;
+    }
+    .search-button{
+        min-width: 15%;
+        margin-top: 0.3rem;
     }
 
-    .closeButton {
-        background-color: transparent !important;
-        color: white;
-        border: white;
-        font-weight: 700;
-        font-size: 2rem;
-        padding-top: 0;
-        margin-top: 0;
+    .view-button-wraper{    
+        width: 30% !important;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+    }
+    .view-button{
+        min-width: 40%;
+        align-content: center;
+        margin: 0.5rem 5%;
+    }
+    
+
+    @media screen and (max-width: 600px) {
+        .add-booking-content .card-body{
+            margin: 0.1rem;
+            padding: 0rem;
+        }
+        .search-card .card-body{
+            margin: 0.5rem;
+        }
+
+        .label {
+            font-size: 12pt; 
+            font-weight:600;
+            margin:0 0 0 0;
+        }
+        .search-wraper{    
+            width: 100% !important;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: center;
+        }
+        .date-picker{
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .vehicle-type{
+            min-width: 100%;
+            margin: 0;
+        }
+        .search-button{
+            min-width: 100%;
+            margin: 0 0 2rem 0;
+        }
+
+        .view-button-wraper{    
+            width: 100% !important;
+            margin: 2rem auto;
+            display: flex;            
+            flex-wrap: wrap;
+            align-content: center;
+        }
+
     }
 
 </style>
