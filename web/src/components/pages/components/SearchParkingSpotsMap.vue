@@ -24,12 +24,15 @@
                                 <i class="fa fa-motorcycle"></i>
                                     {{motorBikeSpot.name}}
                             </b-button>
-                            <b-popover                                                                
+                            <b-popover 
+                                :key="'motor-'+motorBikeSpot.id+popoverKey"
+                                custom-class="spot-info"
+                                :disabled="motorBikeSpot.available && mobile && motorBikeSpot['fit']"                                                                
                                 :target="'popover-button-variant'+motorBikeSpot.id"
                                 triggers="hover"
-                                placement="left"                                                                          
+                                placement="top"                                                                          
                                 >
-                                <parking-spot-details-popup :spotInfo="motorBikeSpot" :bookingDates="bookingDates"/>
+                                <parking-spot-details-popup @closePopover="popoverKey++;" :spotInfo="motorBikeSpot" :bookingDates="bookingDates"/>
                             </b-popover>
                         </b-col>
                     </b-row>
@@ -55,11 +58,14 @@
                                 <i class="fa fa-car"></i>
                                     {{carSpot.name}}
                             </b-button>
-                            <b-popover                                                                
+                            <b-popover 
+                                :key="'car-1-'+carSpot.id+popoverKey"                               
+                                custom-class="spot-info"                                
+                                :disabled="carSpot.available && mobile && carSpot['fit']"                                                                
                                 :target="'popover-button-variant'+carSpot.id"
                                 triggers="hover"
-                                placement="left">
-                                <parking-spot-details-popup :spotInfo="carSpot" :bookingDates="bookingDates"/>
+                                placement="top">
+                                <parking-spot-details-popup @closePopover="popoverKey++;" :spotInfo="carSpot" :bookingDates="bookingDates"/>
                             </b-popover>
                         </b-col>
                     </b-row>
@@ -75,12 +81,15 @@
                                 <i class="fa fa-car"></i>
                                     {{carSpot.name}}
                             </b-button>
-                            <b-popover                                                                
+                            <b-popover 
+                                :key="'car-2-'+carSpot.id+popoverKey"
+                                custom-class="spot-info"
+                                :disabled="carSpot.available && mobile && carSpot['fit']"                                                                
                                 :target="'popover-button-variant'+carSpot.id"
                                 triggers="hover"
-                                placement="left"                                                                          
+                                placement="top"                                                                          
                                 >
-                                <parking-spot-details-popup :spotInfo="carSpot" :bookingDates="bookingDates" />
+                                <parking-spot-details-popup @closePopover="popoverKey++;" :spotInfo="carSpot" :bookingDates="bookingDates" />
                             </b-popover>
                         </b-col>
                     </b-row>                    
@@ -107,12 +116,15 @@
                                 <b-icon-truck></b-icon-truck>
                                     {{truckSpot.name}}
                             </b-button>
-                            <b-popover                                                                
+                            <b-popover 
+                                :key="'truck-'+truckSpot.id+popoverKey"
+                                custom-class="spot-info"
+                                :disabled="truckSpot.available && mobile && truckSpot['fit']"                                                                
                                 :target="'popover-button-variant'+truckSpot.id"
                                 triggers="hover"
-                                placement="left"                                                                          
+                                placement="top"                                                                          
                                 >
-                                <parking-spot-details-popup :spotInfo="truckSpot" :bookingDates="bookingDates" />
+                                <parking-spot-details-popup @closePopover="popoverKey++;" :spotInfo="truckSpot" :bookingDates="bookingDates" />
                             </b-popover>
                         </b-col>
                     </b-row>
@@ -126,11 +138,11 @@
 
         <b-modal body-class="py-0" size="xl" v-model="showBookingWindow" header-class="bg-primary text-white" >
             <template v-slot:modal-title>
-                <h1 class="my-2 ml-2">Parking Spot Reservation Request</h1> 
+                <h1 class="parking-reservation-header my-2 ml-2">Parking Spot Reservation Request</h1> 
             </template>
 
             <b-card v-if="parkingSpotDataReady" class="border-white text-dark bg-white" body-class="py-0" :key="updatedBookingInfo"> 
-                <b-row class="ml-auto mt-2 h2">
+                <b-row class="ml-auto mt-2 h2 parking-reservation-detail-txt">
                     Your requested reservation details: 
                 </b-row>
                 <b-row class="mt-n2 h4">
@@ -192,17 +204,17 @@
 
         <b-modal body-class="py-0" size="xl" v-model="bookingResultWindow" header-class="bg-primary text-white" >
             <template v-slot:modal-title>
-                <h1 class="my-2 ml-2">Parking Reservation Request Status</h1> 
+                <h1 class="my-2 ml-2 parking-confirm-header">Parking Reservation Request Status</h1> 
             </template>
 
-            <b-card v-if="!bookingErr" border-variant="white" class="h3 text-center p-2 text-success text-white">
+            <b-card v-if="!bookingErr" border-variant="white" class="h3 text-center p-2 text-success">
                 Your booking has been confirmed.
             </b-card>
-            <b-card v-else border-variant="white" class="h3 p-2 text-danger text-white">
+            <b-card v-else border-variant="white" class="h3 p-2 text-danger">
                 We are not able to process your request. {{bookingErr}}
             </b-card>
 
-            <template v-slot:modal-footer class="text-center">                
+            <template v-slot:modal-footer>                
                 <b-button  variant="primary" @click="closeBookingResultWindow">OK</b-button>
             </template>
             <template v-slot:modal-header-close>
@@ -272,6 +284,8 @@ export default class SearchParkingSpotsMap extends Vue {
 
     bookingResultWindow = false;
     bookingErr=''
+    mobile = false;
+    popoverKey=0;
 
     parkingSpot = {} as parkingSpotInfoType; 
     bookingStates = {} as bookingStatesInfoType; 
@@ -290,7 +304,11 @@ export default class SearchParkingSpotsMap extends Vue {
         
     }
    
-    mounted() { 
+    mounted() {
+        this.mobile = false;
+        if (window.innerWidth < 600) {
+            this.mobile = true;
+        } 
         this.showBookingWindow = false;
         this.bookingStates = {} as bookingStatesInfoType;
         this.showBookingWindow = false;
@@ -469,6 +487,27 @@ export default class SearchParkingSpotsMap extends Vue {
         padding: 0;
         box-shadow: 3px 3px 6px 6px #DDD;
         background: rgb(55, 98, 141);
+    }
+
+    @media screen and (max-width: 600px) {
+        .popover.spot-info{
+            height: 21rem;
+            width:85%;
+            max-width: 85%;
+            box-shadow: none;
+        }
+        ::v-deep .modal-body{
+            padding: 0 !important;
+        }
+        .parking-reservation-header{
+            font-size: 16pt;            
+        }
+        .parking-reservation-detail-txt{
+            font-size: 14pt;
+        }
+        .parking-confirm-header{
+            font-size: 16pt;
+        }
     }
 
 </style>

@@ -14,7 +14,8 @@
                 <b-table
                     :items="getParkingSpots"
                     :fields="parkingSpotFields"
-                    class="border-info"
+                    class="border-info booking-table"
+                    thead-class="table-header-class"
                     sort-by="available"
                     sort-desc
                     sort-icon-left                                    
@@ -22,8 +23,8 @@
                     responsive="sm"> 
 
                     <template v-slot:cell(available)="data" > 
-                        <span class="p-1 bg-danger text-white rounded" v-if="!data.value">Occupied</span>
-                        <span class="p-1 bg-success text-white rounded" v-else>Available</span>                     
+                        <span class="p-1 bg-danger text-white rounded occupied-badge" v-if="!data.value">Occupied</span>
+                        <span class="p-1 bg-success text-white rounded available-badge" v-else>Available</span>                     
                     </template> 
 
                     <template v-slot:cell(nextAvailable)="data" > 
@@ -50,11 +51,11 @@
 
         <b-modal body-class="py-0" size="xl" v-model="showBookingWindow" header-class="bg-primary text-white" >
             <template v-slot:modal-title>
-                <h1 class="my-2 ml-2">Parking Spot Reservation Request</h1> 
+                <h1 class="my-2 ml-2 parking-reservation-header">Parking Spot Reservation Request</h1> 
             </template>
 
             <b-card v-if="parkingSpotDataReady" class="border-white text-dark bg-white" body-class="py-0" :key="updatedBookingInfo"> 
-                <b-row class="ml-auto mt-2 h2">
+                <b-row class="ml-auto mt-2 h2 parking-reservation-detail-txt">
                     Your requested reservation details: 
                 </b-row>
                 <b-row class="mt-n2 h4">
@@ -114,7 +115,7 @@
 
         <b-modal body-class="py-0" size="xl" v-model="bookingResultWindow" header-class="bg-primary text-white" >
             <template v-slot:modal-title>
-                <h1 class="my-2 ml-2">Parking Reservation Request Status</h1> 
+                <h1 class="my-2 ml-2 parking-confirm-header">Parking Reservation Request Status</h1> 
             </template>
 
             <b-card v-if="!bookingErr" border-variant="white" class="h3 text-center p-2 text-success text-white">
@@ -124,7 +125,7 @@
                 We are not able to process your request. {{bookingErr}}
             </b-card>
 
-            <template v-slot:modal-footer class="text-center">                
+            <template v-slot:modal-footer>                
                 <b-button  variant="primary" @click="closeBookingResultWindow">OK</b-button>
             </template>
             <template v-slot:modal-header-close>
@@ -191,7 +192,7 @@ export default class SearchParkingSpotsTable extends Vue {
     booking = {} as bookingSearchInfoType;    
    
     parkingSpotFields = [
-        {key:'name',          label:'Spot Number',     sortable:true,  cellStyle:'', thClass:'bg-primary text-white align-middle', tdClass:'align-middle', thStyle:'width:20%'},
+        {key:'name',          label:'Spot Number',     sortable:true,  cellStyle:'', thClass:'bg-primary text-white align-middle', tdClass:'align-middle h4', thStyle:'width:20%'},
         {key:'type',          label:'Spot Type',       sortable:true,  cellStyle:'', thClass:'bg-primary text-white align-middle', tdClass:'align-middle', thStyle:'width:14%'},
         {key:'available',     label:'Status',          sortable:true,  cellStyle:'', thClass:'bg-primary text-white align-middle', tdClass:'align-middle', thStyle:'width:21%'},
         {key:'nextAvailable', label:'Next Available',  sortable:false, cellStyle:'', thClass:'bg-primary text-white align-middle', tdClass:'align-middle', thStyle:'width:14%'},
@@ -363,6 +364,41 @@ export default class SearchParkingSpotsTable extends Vue {
         font-size: 2rem;
         padding-top: 0;
         margin-top: 0;
+    }
+
+    @media screen and (max-width: 600px) {
+        .card .card-body{
+            padding: 0 !important;
+            margin: 0;
+        }
+        .booking-table {
+            font-size: 12pt;
+            margin: 0;
+            padding: 0;
+        }
+        ::v-deep .table-header-class{
+            font-size: 9pt !important;
+            line-height: 1rem;
+        }
+
+        .occupied-badge{
+            font-size: 9pt;
+        }
+        .available-badge{
+            font-size: 9pt;
+        }
+        ::v-deep .modal-body{
+            padding: 0 1rem !important;
+        }
+        .parking-reservation-header{
+            font-size: 16pt;            
+        }
+        .parking-reservation-detail-txt{
+            font-size: 14pt;
+        }
+        .parking-confirm-header{
+            font-size: 16pt;
+        }
     }
 
 </style>

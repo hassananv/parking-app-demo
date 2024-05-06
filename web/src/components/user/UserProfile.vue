@@ -1,19 +1,19 @@
 <template>
     <div v-if="pageReady" >
             
-            <b-card style="width:60rem; margin:0 auto;" no-body border-variant="white">
-                <b-alert style="margin-top:0.8rem" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
+            <b-card class="alert-card" no-body border-variant="white">
+                <b-alert style="margin-top:0.8rem; width:100%;" :variant="alertType" :show="dismissCountDown"  @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
                     <b v-if="alertType=='success'">{{message}} <b-icon-check-square-fill class="ml-1"/> </b>
                     <b v-else> {{message}}<b-icon-exclamation-circle-fill class="ml-1"/> </b>
                 </b-alert> 
             </b-card>
 
-            <b-card class="login-section my-4" :key="updateProfileInfo">
+            <b-card class="profile-section my-4" :key="updateProfileInfo">
                 <b-card-header class="card-header text-center h1">
                     Profile
                 </b-card-header>
                 <b-card-body>
-                    <b-row>
+                    <b-row class="register-input-row">
                         <b-col>
                             <b-form-group                        
                                 label="First Name" 
@@ -43,7 +43,7 @@
                             </b-form-group>
                         </b-col>
                     </b-row>  
-                    <b-row>
+                    <b-row class="register-input-row">
                         <b-col>
                             <b-form-group                        
                                 label="Vehicle Type" 
@@ -134,10 +134,10 @@
                             </b-col>
                         </b-row> 
                     </div>
-                    <b-row class="mt-5">
+                    <b-row class="mt-5 disclaimer-row">
                         <div class="mx-auto">
                             <b-row>
-                                <a class="nav-link"  @click="disclaimer.show = true" style="margin:-0.5rem -0.5rem 0 0; cursor: pointer;">Disclaimer</a> Terms: <b class="ml-3 text-success"> Accepted <b-icon-check2-square class="ml-2" scale="1.5" /> </b>
+                                <a class="nav-link disclaimer-link"  @click="disclaimer.show = true">Disclaimer Terms:</a> <b class="text-success disclaimer-accept"> Accepted <b-icon-check2-square class="ml-2" scale="1.5" /> </b>
                             </b-row>
                         </div>
                     </b-row>
@@ -300,22 +300,70 @@ export default class UserProfile extends Vue {
 
 <style scoped lang="scss">
 
-.login-section {
-  font-size: 24px;
-  line-height: 1.6; 
-  margin: 0 auto; 
-  width: 40rem;
-  border: 2px solid ;
-  border-radius: 18px;
-  background-color: rgba(235, 224, 205, 0.76);
-  box-shadow: 5px 10px 10px 10px #DDD;
-}
+    .profile-section {
+        font-size: 24px;
+        line-height: 1.6; 
+        margin: 0 auto; 
+        width: 35%;
+        border: 2px solid ;
+        border-radius: 18px;
+        background-color: rgba(235, 224, 205, 0.76);
+        box-shadow: 5px 10px 10px 10px #DDD;
+    }
 
-.card-header {
-    background: rgb(23, 39, 43);
-    color: white;
-    border-radius: 10px !important;
-    border:0px solid white;
-}
+    .card-header {
+        background: rgb(23, 39, 43);
+        color: white;
+        border-radius: 10px !important;
+        border:0px solid white;
+    }
+
+    .alert-card {
+        width: 80%; 
+        margin:0 auto;
+    }
+
+    .disclaimer-link{
+        margin: -0.4rem -0.1rem 0 0; 
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    @media screen and (max-width: 600px) {
+        .profile-section {
+            font-size: 24px;
+            line-height: 1rem; 
+            margin: 0 auto; 
+            width: 100%;
+            border: 2px solid;
+            border-radius: 18px;
+            background-color: rgba(235, 224, 205, 0.76);
+            box-shadow: none;
+            .card-body {
+                margin: -0.5rem;
+            }
+            .card-header{
+                font-size: 17pt;
+                padding: 0.5rem 0;
+            }
+        }
+
+        .alert-card {
+            width: 95%; 
+            margin:0 auto -1rem auto;
+        }
+        
+        .profile-section .register-input-row .col {            
+            margin: 0 -0.75rem -1rem -0.75rem;            
+        }
+        
+        .disclaimer-row {
+            font-size: 16pt;            
+        }
+        
+        .disclaimer-accept{
+            margin-top: -0.2rem;
+        }
+    }
 
 </style>

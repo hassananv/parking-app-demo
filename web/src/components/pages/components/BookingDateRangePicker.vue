@@ -7,7 +7,7 @@
             class="border-0" 
             style="width:100%; margin:0; padding:0.5rem 1rem;"
             >
-            <span v-html="pickedDates">{{pickedDates}}</span> <b-icon-calendar style="float:right"/>
+            <span v-html="pickedDates"></span> <b-icon-calendar style="float:right"/>
         </b-button>
         <b-popover 
             customClass="pop"
@@ -20,18 +20,17 @@
             >
             <div>
                 <b-row class="mt-1 py-0" >
-                    <b-col cols="5 text-center bg-select h4 border ml-4">
+                    <b-col class="selected-date-info left text-center bg-select">
                         <span v-if="dates[1]<dates[0]"><b class="text-danger">From: </b>{{dates[1]|beautify-date-weekday}}</span>
                         <span v-else><b class="text-danger">From: </b>{{dates[0]|beautify-date-weekday}}</span>
-                    </b-col>
-                    <b-col cols="1" />
-                    <b-col cols="5 text-center bg-select h4 border ml-2">
+                    </b-col>                    
+                    <b-col class="selected-date-info right text-center bg-select">
                         <span v-if="dates[0]>dates[1]"><b class="text-danger">To: </b>{{dates[0]|beautify-date-weekday}}</span>
                         <span v-else ><b class="text-danger">To: </b>{{dates[1]|beautify-date-weekday}}</span>
                     </b-col>
                 </b-row>
-                <b-row class="py-0" style="margin-top:-3rem;">
-                    <b-col cols="6">
+                <b-row class="py-0" style="margin-top:-1.5rem;">
+                    <b-col>
                         <v-app style="height:24rem; padding:0; margin:1rem 0 -2rem 0;">                        
                             <v-date-picker
                                 v-model="dates"
@@ -42,7 +41,7 @@
                             ></v-date-picker>                            
                         </v-app>
                     </b-col>
-                    <b-col cols="4">
+                    <b-col v-if="!mobile">
                         <v-app style="height:24rem; padding:0; margin:1rem 0 -2rem 0;">                        
                             <v-date-picker
                                 v-model="dates"
@@ -57,33 +56,33 @@
             </div>
 
             <b-row style="margin-top:-2.25rem;">
-                <b-col cols="3">                    
+                <div class="time-input">                    
                     <div style="margin:0.25rem 0 0 0; font-size:13pt; font-weight: 600;">Start Time:</div>                     
                     <div v-if="startTimeError" style="line-height:1.2rem;" class="mt-n2 py-0 px-0 text-danger">Time is in the past.</div>
-                </b-col>
-                <b-col cols="3">                     
+                </div>
+                <div class="time-input">                     
                     <b-form-select :state="startTimeState" v-model="startTime" :options="timeOptions"></b-form-select>                             
-                </b-col>
+                </div>
                 
-                <b-col cols="3">                    
+                <div class="time-input">                    
                     <div style="margin:0.25rem 0 0 0; font-size:13pt; font-weight: 600;">End Time:</div>
                     <div v-if="timeError" style="line-height:1rem;" class="mt-n2 py-0 px-0 text-danger"> Before start time!</div>
-                </b-col>
-                <b-col cols="3">
+                </div>
+                <div class="time-input">
                     <b-form-select :state="endTimeState" v-model="endTime" :options="timeOptions"></b-form-select>
-                </b-col>
+                </div>
                 
             </b-row>
 
-            <b-row class="border rounded mx-0" style="margin-top:1rem; box-shadow: 0px 0px 4px 2px #DDD;">
+            <b-row class="border rounded date-actions">
                 <b-col>
-                    <b-button @click="focusSearchButton();onShow=false" class="border" variant="white" style="width:7rem;" >Cancel</b-button>
+                    <b-button @click="focusSearchButton();onShow=false" class="border date-buttons" variant="white">Cancel</b-button>
                 </b-col>
                 <b-col>
-                    <b-button @click="setDatesToday" style="width:7rem;" variant="primary">Today</b-button>
+                    <b-button @click="setDatesToday" class="date-buttons" variant="primary">Today</b-button>
                 </b-col>                
                 <b-col>
-                    <b-button @click="AddDates" class="px-4" variant="success" style="float:right; width:7rem;">Add</b-button>
+                    <b-button @click="AddDates" class="date-buttons" variant="success">Add</b-button>
                 </b-col>
             </b-row>
         </b-popover>
@@ -125,6 +124,7 @@ export default class BookingDateRangePicker extends Vue {
     endTimeState = null
     timeError = false
     startTimeError = false
+    mobile = false;
 
     @Watch('pickerDateL')
     monthChange(newValue){
@@ -137,7 +137,11 @@ export default class BookingDateRangePicker extends Vue {
     }
    
 
-    mounted(){        
+    mounted(){
+        this.mobile = false;
+        if (window.innerWidth < 600) {
+            this.mobile = true;
+        }
         this.timeError = false
         this.startTimeError = false
         this.initialTime()
@@ -177,8 +181,8 @@ export default class BookingDateRangePicker extends Vue {
         if(!bookingDate[1] || !bookingDate[0])
             this.pickedDates ='No dates'
         else
-            this.pickedDates ='<b>From </b>'+ moment(bookingDate[0]).format("MMM DD, YYYY HH:mm") +
-                              '<b>  To </b>'+  moment(bookingDate[1]).format("MMM DD, YYYY HH:mm");      
+            this.pickedDates ='<b>From </b>'+ moment(bookingDate[0]).format("MMM DD, YYYY HH:mm") + (this.mobile? '<br>':' ')+
+                              '<b>To </b>'+  moment(bookingDate[1]).format("MMM DD, YYYY HH:mm");      
     }
 
     public CombineDateTime(){
@@ -301,5 +305,58 @@ export default class BookingDateRangePicker extends Vue {
         margin:0 -.5rem;
         padding: 0;
         box-shadow: 3px 3px 6px 6px #DDD;
+    }
+
+    .selected-date-info{
+        width: 46%;
+        padding: 0.25rem 0;
+        margin: 0 2% 0 2%;
+        border: 1px solid #d4caca;
+        font-size: 14pt;
+    }
+    .time-input{
+        width: 21%;
+        margin: 1rem 2% 0 2%;
+        z-index: 1;
+    }
+    .date-actions{ 
+        margin:1.5rem 0 0 0 !important; 
+        box-shadow: 0px 0px 4px 2px #DDD;
+    }
+    .date-buttons{
+        width: 100%;        
+    }
+
+    @media screen and (max-width: 600px) {
+        .popover.pop{
+            height: auto;
+            width:100%;
+            max-width: 100%;
+            box-shadow: none;
+            transform: translate3d(5px, 42px, 0px) !important;
+        }
+        .selected-date-info{
+            
+            padding: 0.25rem 0;            
+            border: 1px solid #d4caca;
+            font-size: 11pt;
+            font-weight: 600;
+            &.left{
+                width: 48%;
+                margin: 0 0 0 2%;
+            }
+            &.right{
+                width: 46%;
+                margin: 0 2% 0 2%;
+            }
+        }
+        .time-input{
+            width: 40%;
+            margin: 1rem 5% -0.4rem 5%;
+            z-index: 1;
+        }
+        .date-actions{ 
+            margin:2rem 0 0 0 !important; 
+        }
     }
 </style>

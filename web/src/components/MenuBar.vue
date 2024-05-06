@@ -1,6 +1,6 @@
 <template>
-	<header v-if="user && user.userName" name="menu-bar" class="app-header" :key="update">
-		<b-navbar toggleable="lg" class="navbar navbar-expand-lg navbar-dark m-0 p-0" style="background-color: #0c4433;">    
+	<header v-if="user && user.userName" class="app-header" :key="update">
+		<b-navbar class="navbar navbar-expand-lg navbar-dark menu-bar" style="background-color: #0c4433;">    
 		
 			<b-navbar-nav  class="menu-navbar">
                 <b-nav-item 
@@ -79,7 +79,7 @@ export default class MenuBar extends Vue {
 }
 </script>
 
-<style scoped>   
+<style scoped lang="scss">   
 
 	.booking-tab{
 		font-size:14pt; 
@@ -92,22 +92,43 @@ export default class MenuBar extends Vue {
         width: 250px !important;
     }
 
-	.time {
-		margin:0 3rem 0 auto; 
-		color:#FFF;
+	
+	.menu-bar{
+		margin: 0;
+		padding: 0;
 	}
+
 	.menu-navbar{
 		margin: 0 2rem;
 	}
 
+	.time {
+		margin:0 3rem 0 auto; 
+		color:#FFF;
+	}
 
 	@media screen and (max-width: 600px) {
-		.time {
-			margin:0 0.5rem 0 auto;
+		.menu-bar.navbar-expand{
+			margin: 0;
+			padding: 0;
+			display: block !important;
 		}
-		
 		.menu-navbar{
 			margin: 0;
-		}		
+		}
+						
+		.nav-item {
+			border: 1px solid #a2bfc4;
+			border-radius: 5px;
+			margin: 0.2rem auto;			
+			.nav-link {
+				margin:-0.3rem;
+				text-align: center;
+			}
+		}
+		
+		.time {
+			text-align: center;		
+		}
 	}
 </style>
